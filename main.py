@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 password = os.getenv("PASSWORD")
+emaill = os.getenv("EMAIL")
 
 
 def sendEmail(to, sub, msg):
@@ -21,7 +22,8 @@ def sendEmail(to, sub, msg):
 
         smtp.ehlo()
         smtp.starttls()
-        smtp.login("Email", password)
+        smtp.login(email, password)
+        smtp.ehlo()
         smtp.send_message(email)
         print("Email Send")
     pass
@@ -38,8 +40,8 @@ if __name__ == "__main__":
     for index, item in df.iterrows():
         bday = item["Birthday"].strftime("%d-%m")
         if (bday == today) and yearnow not in str(item["Year"]):
-            sendEmail(item["Email"], 'Happy Birthday' +
-                      item["Name"], item["message"])
+            sendEmail(item["email"], 'Happy Birthday' +
+                      item["name"], item["message"])
             update.append(index)
         for i in update:
             yr = df.loc[i, "Year"]
